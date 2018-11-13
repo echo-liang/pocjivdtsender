@@ -42,6 +42,7 @@ public class KafkaConsumerConfig {
         //https://stackoverflow.com/questions/30899163/how-do-i-use-multiple-consumers-in-kafka
         //to allow multiple consumers to consume same messages
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "smallest");
+        
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         return new DefaultKafkaConsumerFactory<>(props);
