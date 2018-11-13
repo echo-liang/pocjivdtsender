@@ -27,6 +27,12 @@ public class KafkaConsumerConfig {
 	/** The bootstrap address. */
 	@Value(value = "${KAFKA_BOOTSTRAP_ADDRESS}")
     private String bootstrapAddress;
+	
+	@Value(value = "${KAFKA_GROUP_ID_STRING}")
+    private String group_string;
+	
+	@Value(value = "${KAFKA_GROUP_ID_OBJ}")
+    private String group_obj;
  
     /**
      * Consumer factory.
@@ -52,7 +58,7 @@ public class KafkaConsumerConfig {
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, String> stringKafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactory("GROUP1"));
+        factory.setConsumerFactory(consumerFactory(group_string));
         return factory;
     }
     
@@ -65,7 +71,7 @@ public class KafkaConsumerConfig {
     public ConsumerFactory<String, DisputeTicketBundle> disputeBundleConsumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "disputeBundle");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, group_obj);
         return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), new JsonDeserializer<>(DisputeTicketBundle.class));
     }
 
