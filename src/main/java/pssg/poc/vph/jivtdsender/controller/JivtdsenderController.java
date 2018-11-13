@@ -32,16 +32,16 @@ public class JivtdsenderController {
      */
     private static Logger logger = LoggerFactory.getLogger(JivtdsenderController.class);
     
-    /** The Constant KAFKA_TOPIC_NAME_STRING. */
-    private final static String KAFKA_TOPIC_NAME_STRING = "my_topic";
-    
-    /** The Constant KAFKA_TOPIC_NAME_OBJ. */
-    private final static String KAFKA_TOPIC_NAME_OBJ = "my_topic_obj";
-    
     /** The jivtd api uri. */
     @Value(value = "${JI_API_URI}")
     private String jivtd_api_uri;
     
+    @Value(value = "${KAFKA_TOPIC_NAME_DISPUTE_TICKET}")
+    private String KAFKA_TOPIC_NAME_OBJ;
+    
+    
+    @Value(value = "${KAFKA_TOPIC_NAME_STRING}")
+    private String KAFKA_TOPIC_NAME_STRING;
     
     /**
      * Home.
@@ -59,7 +59,7 @@ public class JivtdsenderController {
      *
      * @param disputeBundle the dispute bundle
      */
-    @KafkaListener(topics = KAFKA_TOPIC_NAME_OBJ, containerFactory = "disputeBundleListenerContainerFactory")
+    @KafkaListener(topics = "${KAFKA_TOPIC_NAME_DISPUTE_TICKET}", containerFactory = "disputeBundleListenerContainerFactory")
     public void disputeBundleListen(DisputeTicketBundle disputeBundle) {
         logger.info("Received disputeBundle with ticketNO[{}]", disputeBundle.getTicket_number());
         
@@ -77,7 +77,7 @@ public class JivtdsenderController {
      *
      * @param message the message
      */
-    @KafkaListener(topics = KAFKA_TOPIC_NAME_STRING, containerFactory = "stringKafkaListenerContainerFactory")
+    @KafkaListener(topics = "${KAFKA_TOPIC_NAME_STRING}", containerFactory = "stringKafkaListenerContainerFactory")
     public void listen(String message) {
         logger.info("Received GROUP1 message [{}]", message);
     }
